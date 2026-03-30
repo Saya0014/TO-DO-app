@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>To-Do App</title>
+
+    <style>
+  body {
+    font-family: Arial;
+    background: linear-gradient(to right, #74ebd5, #acb6e5);
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    background: white;
+    width: 350px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px gray;
+}
+
+h1 {
+    margin-bottom: 10px;
+}
+
+input {
+    padding: 10px;
+    width: 70%;
+    border-radius: 5px;
+    border: 1px solid gray;
+}
+
+button {
+    padding: 10px;
+    border: none;
+    background: black;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+li {
+    list-style: none;
+    background: #f2f2f2;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My To-Do List 📝</h1>
+    <p>Click on task to mark as completed ✔</p>
+
+    <input type="text" id="task" placeholder="Enter task">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="list"></ul>
+
+</div>
+
+</body>
+
+ <script>
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
+
+function showTasks() {
+    let list = document.getElementById("list");
+    list.innerHTML = "";
+
+    tasks.forEach((task, index) => {
+        let li = document.createElement("li");
+
+        let span = document.createElement("span");
+        span.innerText = "👉 " + task.text;
+
+        if (task.completed) {
+            span.classList.add("completed");
+        }
+
+        span.onclick = function() {
+            tasks[index].completed = !tasks[index].completed;
+            saveTasks();
+        };
+
+        let btn = document.createElement("button");
+        btn.innerText = "Delete";
+        btn.onclick = function() {
+            tasks.splice(index, 1);
+            saveTasks();
+        };
+
+        li.appendChild(span);
+        li.appendChild(btn);
+        list.appendChild(li);
+    });
+}
+
+function addTask() {
+    let taskInput = document.getElementById("task").value;
+
+    if (taskInput === "") return;
+
+    tasks.push({ text: taskInput, completed: false });
+    saveTasks();
+
+    document.getElementById("task").value = "";
+}
+
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    showTasks();
+}
+
+// Load tasks when page opens
+showTasks();
+</script>
+    
+    
+
+</body>
+</html>
