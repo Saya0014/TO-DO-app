@@ -11,6 +11,10 @@
     margin: 0;
     padding: 0;
 }
+h1 {
+    font-size: 28px;
+    color: #333;
+}
 
 .container {
     background: white;
@@ -54,6 +58,9 @@ li {
 .completed {
     text-decoration: line-through;
     color: gray;
+}
+button:hover {
+    background-color: #333;
 }
     </style>
 </head>
@@ -112,7 +119,10 @@ function showTasks() {
 function addTask() {
     let taskInput = document.getElementById("task").value;
 
-    if (taskInput === "") return;
+    if (taskInput === "") {
+    alert("Please enter a task");
+    return;
+}
 
     tasks.push({ text: taskInput, completed: false });
     saveTasks();
